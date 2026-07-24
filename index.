@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PREVIA - Módulo 2: Normas de Circulação e Direção Defensiva</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        previa: {
+                            navy: '#1e252b',        /* Azul Escuro Principal */
+                            navyDark: '#12181c',    /* Fundo geral escuro */
+                            teal: '#00848c',        /* Azul Turquesa / Teal */
+                            tealLight: '#00a9b4',  /* Teal Ativo */
+                            orange: '#ff823a',      /* Laranja de Destaque */
+                            white: '#ffffff',
+                            slate: '#334155',
+                            grayLight: '#f8fafc',
+                            border: '#e2e8f0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        title: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --font-scale: 1.0;
+            --bg-gradient-start: #1e252b;
+            --bg-gradient-via: #161c20;
+            --bg-gradient-end: #0f1316;
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e1;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-theme {
+            --bg-gradient-start: #f8fafc;
+            --bg-gradient-via: #f1f5f9;
+            --bg-gradient-end: #e2e8f0;
+            --text-primary: #1e252b;
+            --text-secondary: #475569;
+            --card-bg: #ffffff;
+            --card-border: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-gradient-end);
+            user-select: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .scaled-text-p {
+            font-size: calc(0.875rem * var(--font-scale)) !important;
+            line-height: 1.6;
+        }
+        .scaled-text-h2 {
+            font-size: calc(1.75rem * var(--font-scale)) !important;
+            line-height: 1.2;
+        }
+        .scaled-text-h3 {
+            font-size: calc(1.15rem * var(--font-scale)) !important;
+        }
+        .scaled-text-xs {
+            font-size: calc(0.75rem * var(--font-scale)) !important;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #00848c;
+            border-radius: 3px;
+        }
+
+        .progress-segment {
+            transition: all 0.3s ease;
+        }
+        .progress-segment.active {
+            background-color: #00848c;
+        }
+        .progress-segment.completed {
+            background-color: #00a9b4;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="w-screen h-screen overflow-hidden m-0 p-0 flex flex-col justify-between">
+
+<div id="presentation-wrapper" class="w-full h-full bg-previa-navy flex flex-col justify-between relative overflow-hidden transition-all duration-300">
+    
+    <!-- CABEÇALHO DA INTERFACE -->
+    <header class="h-[75px] bg-white text-previa-navy px-4 md:px-6 flex items-center justify-between border-b-2 border-previa-border shrink-0 z-20">
+        <div class="flex items-center gap-3">
+            <div class="bg-previa-teal text-white font-title font-extrabold text-base md:text-lg px-3 md:px-4 py-1.5 rounded-lg tracking-wider">PREVIA</div>
+            <div class="flex flex-col">
+                <span class="text-[10px] md:text-xs font-bold text-previa-teal tracking-wide uppercase">Curso Teórico de Primeira Habilitação</span>
+                <span class="text-[10px] md:text-xs text-slate-500 font-medium">Módulo 2: Normas de Circulação e Direção Defensiva</span>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-2 md:gap-3">
+            <!-- Controles Acessibilidade -->
+            <div class="hidden sm:flex items-center gap-1 bg-slate-100 border border-slate-200 rounded-lg px-2 py-1">
+                <button onclick="changeFontSize(-0.1)" class="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-previa-teal font-bold text-xs" title="Diminuir Fonte">A-</button>
+                <button onclick="changeFontSize(0.1)" class="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-previa-teal font-bold text-xs" title="Aumentar Fonte">A+</button>
+                <button onclick="toggleTheme()" class="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-previa-teal text-xs ml-1" title="Alternar Tema Light/Dark">
+                    <i class="fa-solid fa-circle-half-stroke"></i>
+                </button>
+            </div>
+
+            <!-- Dropdown indicador do topo -->
+            <select id="slide-dropdown-select" onchange="jumpToSlide(parseInt(this.value))" class="bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold px-2 md:px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-previa-teal cursor-pointer max-w-[130px] md:max-w-none">
+                <!-- Injetado via JS -->
+            </select>
+
+            <!-- Seletor de Velocidade do Áudio -->
+            <div class="flex items-center gap-1 bg-slate-100 border border-slate-200 rounded-lg px-2 py-1">
+                <i class="fa-solid fa-gauge-high text-xs text-slate-500" title="Velocidade"></i>
+                <select id="audio-rate-select" onchange="setAudioRate(parseFloat(this.value))" class="bg-transparent text-slate-700 text-xs font-semibold focus:outline-none cursor-pointer">
+                    <option value="0.75">0.75x</option>
+                    <option value="1.0" selected>1.0x</option>
+                    <option value="1.25">1.25x</option>
+                    <option value="1.5">1.5x</option>
+                    <option value="2.0">2.0x</option>
+                </select>
+            </div>
+
+            <!-- Botão de Áudio e Narração -->
+            <button id="audio-btn" onclick="toggleAudio()" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-previa-teal hover:text-white border border-slate-200 flex items-center justify-center cursor-pointer transition-all duration-300 text-slate-700 relative" title="Ouvir Narração do Slide">
+                <i class="fa-solid fa-volume-high text-sm" id="audio-icon"></i>
+                <span id="audio-pulse" class="hidden absolute -top-1 -right-1 w-3 h-3 bg-previa-orange rounded-full animate-ping"></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="bg-white px-6 pb-2 pt-1 flex gap-1 z-10 shrink-0 border-b border-slate-100" id="progress-bar-container">
+        <!-- Gerado dinamicamente via JS -->
+    </div>
+
+    <div id="slides-viewport" class="flex-1 relative overflow-hidden bg-gradient-to-br from-[#1e252b] via-[#161c20] to-[#0f1316] transition-all duration-300">
+        
+        <!-- SLIDE 1: CAPA PRINCIPAL DO MÓDULO 2 -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-1">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
+                <div class="space-y-6">
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-previa-orange/10 border border-previa-orange/20 text-previa-orange text-xs font-semibold uppercase tracking-wider">
+                            <i class="fa-solid fa-graduation-cap"></i> CNH do Brasil - Módulo 2
+                        </div>
+                        <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                            <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                        </button>
+                    </div>
+                    <h1 class="text-3xl md:text-5xl font-title font-extrabold text-[var(--text-primary)] leading-tight">
+                        Normas de Circulação &<br><span class="text-previa-tealLight">Direção Defensiva</span>
+                    </h1>
+                    <p class="text-[var(--text-secondary)] scaled-text-p max-w-md">
+                        Aprenda as regras essenciais do Código de Trânsito Brasileiro (CTB) e as técnicas indispensáveis para prever riscos, evitar acidentes e conduzir com máxima segurança nas vias.
+                    </p>
+                </div>
+                <div class="hidden lg:flex flex-col items-center justify-center p-6 bg-black/20 rounded-2xl border border-white/10">
+                    <div class="w-full max-w-md h-64 bg-slate-800/80 rounded-xl border border-previa-teal/30 flex flex-col items-center justify-center p-6 text-center shadow-2xl relative overflow-hidden">
+                        <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-previa-teal/10 rounded-full blur-2xl"></div>
+                        <i class="fa-solid fa-shield-halved text-6xl text-previa-tealLight mb-4 animate-bounce"></i>
+                        <h3 class="font-title font-bold text-white text-xl">Condução Segura e Prevenção</h3>
+                        <p class="text-slate-400 text-xs mt-2">Segurança em primeiro lugar para motoristas e pedestres</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: CONCEITO DE DIREÇÃO DEFENSIVA -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-2">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">O Conceito de <span class="text-previa-tealLight">Direção Defensiva</span></h2>
+                <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                </button>
+            </div>
+            <p class="text-[var(--text-secondary)] scaled-text-p max-w-3xl mb-6">
+                Dirigir defensivamente é dirigir de modo a evitar acidentes, apesar das ações incorretas dos outros condutores e das condições adversas encontradas nas vias.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-previa-teal/20 text-previa-tealLight flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-2">Direção Preventiva</h3>
+                        <p class="text-slate-300 scaled-text-p">O condutor antecipa as situações de risco, avalia o ambiente constantemente e adota atitudes cautelosas antes que o perigo se materialize. <strong class="text-previa-tealLight">É a forma ideal de condução.</strong></p>
+                    </div>
+                </div>
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-previa-orange/20 text-previa-orange flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div>
+                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-2">Direção Corretiva</h3>
+                        <p class="text-slate-300 scaled-text-p">O condutor precisa agir sob pressão para corrigir uma situação de perigo já instalada por falta de planejamento ou surpresa. <strong class="text-previa-orange">Exige alto reflexo e nem sempre evita o acidente.</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: OS 5 ELEMENTOS DA DIREÇÃO DEFENSIVA -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-3">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Os 5 Pilares Fundamentais</h2>
+                <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                </button>
+            </div>
+            <p class="text-[var(--text-secondary)] scaled-text-p max-w-2xl mb-6">Para dirigir de forma segura, todo condutor precisa dominar cinco elementos essenciais:</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 overflow-y-auto max-h-[380px] pr-2 custom-scrollbar">
+                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)] flex flex-col justify-between">
+                    <div>
+                        <span class="text-previa-tealLight text-2xl inline-block mb-2"><i class="fa-solid fa-book-open"></i></span>
+                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">1. Conhecimento</h4>
+                    </div>
+                    <p class="text-slate-400 text-[11px] mt-2">Leis de trânsito, regras da via e mecânica básica do veículo.</p>
+                </div>
+                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)] flex flex-col justify-between">
+                    <div>
+                        <span class="text-previa-tealLight text-2xl inline-block mb-2"><i class="fa-solid fa-eye"></i></span>
+                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">2. Atenção</h4>
+                    </div>
+                    <p class="text-slate-400 text-[11px] mt-2">Foco total no trânsito, retrovisores e arredores sem distrações.</p>
+                </div>
+                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)] flex flex-col justify-between">
+                    <div>
+                        <span class="text-previa-tealLight text-2xl inline-block mb-2"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">3. Previsão</h4>
+                    </div>
+                    <p class="text-slate-400 text-[11px] mt-2">Antecipar o que pode dar errado antes de chegar ao local.</p>
+                </div>
+                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)] flex flex-col justify-between">
+                    <div>
+                        <span class="text-previa-tealLight text-2xl inline-block mb-2"><i class="fa-solid fa-bolt-lightning"></i></span>
+                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">4. Decisão</h4>
+                    </div>
+                    <p class="text-slate-400 text-[11px] mt-2">Escolher a ação mais segura e correta no menor tempo possível.</p>
+                </div>
+                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)] flex flex-col justify-between col-span-2 md:col-span-1">
+                    <div>
+                        <span class="text-previa-tealLight text-2xl inline-block mb-2"><i class="fa-solid fa-hand-holding-steering-wheel"></i></span>
+                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">5. Habilidade</h4>
+                    </div>
+                    <p class="text-slate-400 text-[11px] mt-2">Capacidade técnica de manusear os comandos do veículo com precisão.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: NORMAS GERAIS DE CIRCULAÇÃO E PREFERÊNCIAS -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-4">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Normas de Circulação e <span class="text-previa-tealLight">Preferências</span></h2>
+                <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                </button>
+            </div>
+            <p class="text-[var(--text-secondary)] scaled-text-p mb-6">Em cruzamentos não sinalizados, quem tem a preferência de passagem?</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl flex flex-col items-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-previa-teal/20 text-previa-tealLight flex items-center justify-center text-2xl mb-3">
+                        <i class="fa-solid fa-road"></i>
+                    </div>
+                    <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">1. Rodovias</h3>
+                    <p class="text-slate-300 scaled-text-xs mt-2 leading-relaxed">Tem preferência quem estiver circulando pela <strong>rodovia</strong> sobre quem for entrar nela.</p>
+                    <span class="mt-4 px-3 py-1 bg-previa-teal/20 text-previa-tealLight rounded-full text-[11px] font-semibold">Prioridade Absoluta</span>
+                </div>
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl flex flex-col items-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-previa-orange/20 text-previa-orange flex items-center justify-center text-2xl mb-3">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </div>
+                    <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">2. Rotatória</h3>
+                    <p class="text-slate-300 scaled-text-xs mt-2 leading-relaxed">Tem preferência quem já estiver <strong>circulando</strong> no anel da rotatória.</p>
+                    <span class="mt-4 px-3 py-1 bg-previa-orange/20 text-previa-orange rounded-full text-[11px] font-semibold">Regra do Anel</span>
+                </div>
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl flex flex-col items-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-2xl mb-3">
+                        <i class="fa-solid fa-arrow-turn-right"></i>
+                    </div>
+                    <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">3. Regra da Direita</h3>
+                    <p class="text-slate-300 scaled-text-xs mt-2 leading-relaxed">Nos demais cruzamentos sem sinalização, a preferência é do veículo vindo pela <strong>direita</strong>.</p>
+                    <span class="mt-4 px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-[11px] font-semibold">Veículo à Direita</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: CLASSIFICAÇÃO DAS VIAS E VELOCIDADES -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-5">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Classificação de Vias & Velocidades Máximas</h2>
+                <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                </button>
+            </div>
+            <p class="text-[var(--text-secondary)] scaled-text-p mb-4">Limites regulamentares quando não houver placa de sinalização no local:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto max-h-[380px] pr-2 custom-scrollbar">
+                <!-- VIAS URBANAS -->
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl space-y-3">
+                    <div class="flex items-center gap-2 text-previa-tealLight font-bold text-sm">
+                        <i class="fa-solid fa-city"></i> VIAS URBANAS
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="p-2 bg-black/20 rounded border border-white/5">
+                            <span class="font-bold text-white block">Trânsito Rápido:</span>
+                            <span class="text-previa-orange font-bold text-base">80 km/h</span>
+                        </div>
+                        <div class="p-2 bg-black/20 rounded border border-white/5">
+                            <span class="font-bold text-white block">Arterial:</span>
+                            <span class="text-previa-tealLight font-bold text-base">60 km/h</span>
+                        </div>
+                        <div class="p-2 bg-black/20 rounded border border-white/5">
+                            <span class="font-bold text-white block">Coletora:</span>
+                            <span class="text-yellow-400 font-bold text-base">40 km/h</span>
+                        </div>
+                        <div class="p-2 bg-black/20 rounded border border-white/5">
+                            <span class="font-bold text-white block">Local:</span>
+                            <span class="text-green-400 font-bold text-base">30 km/h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIAS RURAIS -->
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl space-y-3">
+                    <div class="flex items-center gap-2 text-previa-orange font-bold text-sm">
+                        <i class="fa-solid fa-mountain-sun"></i> VIAS RURAIS
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-2 bg-black/20 rounded border border-white/5 flex justify-between items-center">
+                            <div>
+                                <span class="font-bold text-white block">Rodovias de Pista Dupla:</span>
+                                <span class="text-slate-400 text-[10px]">Autos/Motos: 110km/h | Demais: 90km/h</span>
+                            </div>
+                            <span class="text-previa-tealLight font-bold text-lg">110 / 90</span>
+                        </div>
+                        <div class="p-2 bg-black/20 rounded border border-white/5 flex justify-between items-center">
+                            <div>
+                                <span class="font-bold text-white block">Rodovias de Pista Simples:</span>
+                                <span class="text-slate-400 text-[10px]">Autos/Motos: 100km/h | Demais: 90km/h</span>
+                            </div>
+                            <span class="text-previa-orange font-bold text-lg">100 / 90</span>
+                        </div>
+                        <div class="p-2 bg-black/20 rounded border border-white/5 flex justify-between items-center">
+                            <div>
+                                <span class="font-bold text-white block">Estradas (Não Pavimentadas):</span>
+                                <span class="text-slate-400 text-[10px]">Todos os veículos</span>
+                            </div>
+                            <span class="text-yellow-400 font-bold text-lg">60 km/h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-3 text-center">* Importante: A velocidade mínima não pode ser inferior à metade (50%) da máxima permitida na via.</p>
+        </div>
+
+        <!-- SLIDE 6: ATIVIDADE FATO OU FAKE -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-6">
+            <div class="text-center mb-4">
+                <div class="flex items-center justify-center gap-3 mb-1">
+                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-xs font-bold rounded-full uppercase tracking-wider">Atividade Prática Opcional</span>
+                    <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                        <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                    </button>
+                </div>
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Desafio: Fato ou Fake no Trânsito?</h2>
+            </div>
+
+            <div class="max-w-xl mx-auto w-full bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 relative">
+                <div class="flex justify-between items-center mb-4 pb-2 border-b border-white/10">
+                    <span class="text-xs font-bold text-previa-tealLight" id="fact-card-counter">Questão 1 de 3</span>
+                    <span class="text-xs text-slate-300 font-semibold" id="fact-score">Pontos: 0</span>
+                </div>
+
+                <p class="text-sm md:text-base font-semibold text-center text-[var(--text-primary)] py-4 min-h-[90px] flex items-center justify-center leading-relaxed" id="fact-text">
+                    "Em um cruzamento não sinalizado, a preferência é sempre do veículo que trafega em maior velocidade."
+                </p>
+
+                <div class="grid grid-cols-2 gap-4 mt-2">
+                    <button onclick="answerFact(true)" class="py-3.5 rounded-xl bg-green-500/20 border border-green-500/40 text-green-300 font-bold hover:bg-green-500/30 transition-all cursor-pointer">FATO</button>
+                    <button onclick="answerFact(false)" class="py-3.5 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 font-bold hover:bg-red-500/30 transition-all cursor-pointer">FAKE</button>
+                </div>
+
+                <!-- Modal de Feedback -->
+                <div id="game-fact-feedback" class="hidden absolute inset-0 bg-previa-navy/95 rounded-2xl flex flex-col items-center justify-center p-6 text-center z-10 backdrop-blur-sm">
+                    <span id="fact-feedback-icon" class="text-4xl mb-2"></span>
+                    <h3 id="fact-feedback-title" class="text-lg font-title font-bold text-white">Feedback</h3>
+                    <p id="fact-feedback-desc" class="text-xs text-slate-300 mt-2 max-w-sm leading-relaxed"></p>
+                    <button onclick="nextFact()" id="fact-next-btn" class="mt-4 px-6 py-2 bg-previa-teal hover:bg-previa-tealLight text-white rounded-lg text-xs font-bold transition-all cursor-pointer">Continuar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: AS 6 CONDIÇÕES ADVERSAS -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-7">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">As 6 Condições Adversas</h2>
+                <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                </button>
+            </div>
+            <p class="text-[var(--text-secondary)] scaled-text-p mb-6">Fatores externos ou internos que aumentam o risco de acidentes nas vias:</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto max-h-[380px] pr-2 custom-scrollbar">
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl">
+                    <div class="text-previa-tealLight text-2xl mb-2"><i class="fa-solid fa-sun"></i></div>
+                    <h4 class="font-bold text-sm text-[var(--text-primary)]">1. Luz</h4>
+                    <p class="text-slate-400 text-xs mt-1">Excesso de luz (ofuscamento) ou falta dela (penumbra/escuridão).</p>
+                </div>
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl">
+                    <div class="text-previa-tealLight text-2xl mb-2"><i class="fa-solid fa-cloud-showers-heavy"></i></div>
+                    <h4 class="font-bold text-sm text-[var(--text-primary)]">2. Tempo / Clima</h4>
+                    <p class="text-slate-400 text-xs mt-1">Chuva, neblina, vento forte, granizo e pistas molhadas.</p>
+                </div>
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl">
+                    <div class="text-previa-tealLight text-2xl mb-2"><i class="fa-solid fa-road"></i></div>
+                    <h4 class="font-bold text-sm text-[var(--text-primary)]">3. Via</h4>
+                    <p class="text-slate-400 text-xs mt-1">Buracos, curvas acentuadas, falta de acostamento e má sinalização.</p>
+                </div>
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl">
+                    <div class="text-previa-tealLight text-2xl mb-2"><i class="fa-solid fa-car-burst"></i></div>
+                    <h4 class="font-bold text-sm text-[var(--text-primary)]">4. Trânsito</h4>
+                    <p class="text-slate-400 text-xs mt-1">Congestionamentos, picos de horário, pedestres e imprevistos.</p>
+                </div>
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl">
+                    <div class="text-previa-tealLight text-2xl mb-2"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                    <h4 class="font-bold text-sm text-[var(--text-primary)]">5. Veículo</h4>
+                    <p class="text-slate-400 text-xs mt-1">Pneus carecas, freios desgastados, lâmpadas queimadas.</p>
+                </div>
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl">
+                    <div class="text-previa-tealLight text-2xl mb-2"><i class="fa-solid fa-user-ninja"></i></div>
+                    <h4 class="font-bold text-sm text-[var(--text-primary)]">6. Condutor</h4>
+                    <p class="text-slate-400 text-xs mt-1">Fadiga, sono, estresse, bebida alcoólica ou uso do celular.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: AQUAPLANAGEM E PERIGOS CLIMÁTICOS -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-previa-orange font-bold uppercase text-xs tracking-wider"><i class="fa-solid fa-water"></i> Perigo na Pista Molhada</span>
+                        <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                            <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                        </button>
+                    </div>
+                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Aquaplanagem (ou Hydroplanagem)</h2>
+                    <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">
+                        É a perda de atrito dos pneus com o solo devido a uma fina camada de água acumulada na pista. O veículo passa a flutuar na água, perdendo a aderência e o controle da direção.
+                    </p>
+                    <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-xl">
+                        <h4 class="font-bold text-red-400 text-xs uppercase mb-1 flex items-center gap-2">
+                            <i class="fa-solid fa-triangle-exclamation"></i> O que fazer na aquaplanagem?
+                        </h4>
+                        <p class="text-slate-300 text-xs"><strong>NÃO pise no freio bruscamente</strong> e não vire o volante de forma abrupta. Tire suavemente o pé do acelerador e mantenha o volante firme até retomar o contato dos pneus com o asfalto.</p>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="bg-black/20 p-6 rounded-2xl border border-white/5 flex flex-col items-center w-full max-w-sm text-center">
+                        <div class="w-full h-44 rounded-lg bg-slate-800 flex flex-col items-center justify-center p-4 border border-previa-teal/30">
+                            <i class="fa-solid fa-car-side text-5xl text-previa-tealLight mb-2 animate-pulse"></i>
+                            <div class="w-full h-2 bg-blue-500/40 rounded mt-2 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-blue-400/80 animate-pulse"></div>
+                            </div>
+                            <span class="text-[11px] text-blue-300 mt-2 font-medium">Lâmina d'água entre pneu e asfalto</span>
+                        </div>
+                        <span class="text-xs text-slate-300 font-bold mt-3">Camada de Água = Perda do Contato com o Solo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: DISTÂNCIAS DE SEGURANÇA -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-9">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">As Distâncias na Condução</h2>
+                <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                </button>
+            </div>
+            <p class="text-[var(--text-secondary)] scaled-text-p mb-6">Compreenda os conceitos essenciais do tempo de resposta do condutor:</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <span class="text-previa-orange text-base font-bold block mb-1">Distância de Reação</span>
+                        <p class="text-slate-400 text-xs leading-relaxed">Espaço percorrido desde o momento em que o condutor vê o perigo até pisar no freio.</p>
+                    </div>
+                    <span class="mt-3 text-[11px] font-bold text-previa-tealLight">Olhar → Pisar no Freio</span>
+                </div>
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <span class="text-previa-orange text-base font-bold block mb-1">Distância de Frenagem</span>
+                        <p class="text-slate-400 text-xs leading-relaxed">Espaço percorrido desde o acionamento do freio até a parada total do veículo.</p>
+                    </div>
+                    <span class="mt-3 text-[11px] font-bold text-previa-tealLight">Freio → Imobilização</span>
+                </div>
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col justify-between bg-previa-teal/10 border-previa-teal/30">
+                    <div>
+                        <span class="text-previa-tealLight text-base font-bold block mb-1">Distância de Parada</span>
+                        <p class="text-slate-300 text-xs leading-relaxed">Soma da Distância de Reação + Distância de Frenagem. É o espaço total necessário.</p>
+                    </div>
+                    <span class="mt-3 text-[11px] font-bold text-white">Reação + Frenagem</span>
+                </div>
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <span class="text-previa-orange text-base font-bold block mb-1">Distância de Seguimento</span>
+                        <p class="text-slate-400 text-xs leading-relaxed">Espaço mantido entre o seu veículo e o carro que segue à sua frente para evitar colisão.</p>
+                    </div>
+                    <span class="mt-3 text-[11px] font-bold text-yellow-400">Regra dos 2 Segundos</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: REGRA DOS 2 SEGUNDOS -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-xs font-bold rounded-full uppercase tracking-wider">Técnica Prática</span>
+                        <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                            <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                        </button>
+                    </div>
+                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">A Regra dos 2 Segundos</h2>
+                    <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">
+                        É o método mais seguro e simples para calcular a distância de seguimento ideal em pistas secas:
+                    </p>
+                    <ol class="space-y-2 text-xs text-slate-300 list-decimal pl-4">
+                        <li>Escolha um ponto fixo na via (placa, árvore ou poste).</li>
+                        <li>Quando o veículo da frente passar por esse ponto, comece a contar: <strong>"Cinquenta e um, cinquenta e dois"</strong>.</li>
+                        <li>Se você passar pelo ponto fixo <em>antes</em> de terminar a contagem, você está muito próximo. Aumente a distância!</li>
+                    </ol>
+                    <div class="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl text-yellow-300 text-xs">
+                        <i class="fa-solid fa-cloud-rain"></i> <strong>Atenção:</strong> Sob chuva, neblina ou pista molhada, dobre o tempo de distância para <strong>4 segundos</strong>.
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="bg-black/20 p-6 rounded-2xl border border-white/5 flex flex-col items-center w-full max-w-xs text-center">
+                        <div class="w-full h-40 bg-slate-800 rounded-lg flex items-center justify-around p-4 border border-white/10">
+                            <i class="fa-solid fa-car text-3xl text-previa-orange"></i>
+                            <div class="border-t-2 border-dashed border-previa-tealLight flex-1 mx-2 relative">
+                                <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 px-2 py-0.5 rounded text-[10px] text-previa-tealLight font-bold">2 SEG</span>
+                            </div>
+                            <i class="fa-solid fa-car text-3xl text-previa-tealLight"></i>
+                        </div>
+                        <span class="text-xs text-slate-300 font-bold mt-3">Medição Prática de Segurança</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: JOGO CLASSIFICADOR DE RISCOS -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-11">
+            <div class="text-center mb-4">
+                <div class="flex items-center justify-center gap-3 mb-1">
+                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-xs font-bold rounded-full uppercase tracking-wider">Atividade Opcional</span>
+                    <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                        <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                    </button>
+                </div>
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Classificador de Situações de Risco</h2>
+                <p class="text-slate-400 text-xs mt-1">Identifique qual tipo de condição adversa corresponde ao evento mostrado:</p>
+            </div>
+            <div class="max-w-xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 flex flex-col items-center w-full">
+                <div class="h-28 flex items-center justify-center mb-6 text-center px-4 bg-black/30 rounded-xl border border-white/10 w-full" id="classifier-sign-area">
+                    <!-- Gerado via JS -->
+                </div>
+                <div class="grid grid-cols-3 gap-3 w-full">
+                    <button onclick="classifySituation('luz')" class="py-3 px-2 bg-yellow-500/20 border border-yellow-500/40 text-yellow-300 font-bold hover:bg-yellow-500/30 text-xs rounded-xl transition-all cursor-pointer">Luz / Sol</button>
+                    <button onclick="classifySituation('clima')" class="py-3 px-2 bg-blue-500/20 border border-blue-500/40 text-blue-300 font-bold hover:bg-blue-500/30 text-xs rounded-xl transition-all cursor-pointer">Clima / Tempo</button>
+                    <button onclick="classifySituation('condutor')" class="py-3 px-2 bg-red-500/20 border border-red-500/40 text-red-300 font-bold hover:bg-red-500/30 text-xs rounded-xl transition-all cursor-pointer">Condutor</button>
+                </div>
+                <div class="mt-4 text-xs font-bold text-slate-300" id="classifier-score">Acertos: 0 / 4</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: ULTRAPASSAGENS SEGURAS E PROIBIÇÕES -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-12">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Ultrapassagens: Regras & Proibições</h2>
+                <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                </button>
+            </div>
+            <p class="text-[var(--text-secondary)] scaled-text-p mb-4">A ultrapassagem em local proibido é uma das causas mais graves de colisão frontal em rodovias.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl space-y-3">
+                    <h3 class="scaled-text-h3 font-title font-bold text-previa-tealLight">Passos para Ultrapassagem Segura</h3>
+                    <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4">
+                        <li>Sinalize com antecedência usando a seta.</li>
+                        <li>Verifique pelos retrovisores se ninguém iniciou uma ultrapassagem atrás de você.</li>
+                        <li>Certifique-se de que há visibilidade e espaço suficiente na faixa contrária.</li>
+                        <li>Após ultrapassar, sinalize e retorne à faixa de origem com folga de segurança.</li>
+                    </ul>
+                </div>
+                <div class="bg-red-500/10 border border-red-500/20 p-5 rounded-2xl space-y-3">
+                    <h3 class="scaled-text-h3 font-title font-bold text-red-400">É Estritamente Proibido Ultrapassar:</h3>
+                    <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4">
+                        <li>Em faixas amarelas contínuas.</li>
+                        <li>Em pontes, viadutos, túneis e curvas sem visibilidade.</li>
+                        <li>Em cruzamentos e passagens de nível (ferrovias).</li>
+                        <li>Pelo acostamento (Infração Gravíssima x5).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 13: USO DE FARÓIS E ILUMINAÇÃO VEICULAR -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-13">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Uso Correto dos Faróis no Trânsito</h2>
+                <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                </button>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 overflow-y-auto max-h-[380px] pr-2 custom-scrollbar">
+                
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl text-center flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-previa-teal/20 text-previa-tealLight flex items-center justify-center text-xl mb-3">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">Farol Baixo</h4>
+                    <p class="text-[11px] text-slate-400">Obrigatório à noite e em rodovias de pista simples mesmo de dia (ou DRL).</p>
+                </div>
+
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl text-center flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl mb-3">
+                        <i class="fa-solid fa-sun font-bold"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">Farol Alto</h4>
+                    <p class="text-[11px] text-slate-400">Usado em vias não iluminadas. Deve ser baixado ao cruzar com outros veículos.</p>
+                </div>
+
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl text-center flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-xl mb-3">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">Pisca-Alerta</h4>
+                    <p class="text-[11px] text-slate-400">Somente para imobilizações de emergência ou em locais regulamentados.</p>
+                </div>
+
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl text-center flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-previa-orange/20 text-previa-orange flex items-center justify-center text-xl mb-3">
+                        <i class="fa-solid fa-smog"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">Farol de Neblina</h4>
+                    <p class="text-[11px] text-slate-400">Auxilia a visibilidade sob baixa visibilidade de neblina, chuva forte ou fumaça.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SLIDE 14: VEÍCULOS DE EMERGÊNCIA E PRIORIDADE -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-14">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-red-400 font-bold uppercase text-xs tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-truck-medical"></i> Prioridade e livre trânsito
+                        </span>
+                        <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                            <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                        </button>
+                    </div>
+                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Veículos em Emergência</h2>
+                    <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">
+                        Ambulâncias, corpos de bombeiros, viaturas policiais e fiscalização de trânsito têm <strong>prioridade e livre circulação</strong> quando em serviço de urgência e devidamente sinalizados (sirene + girofletor).
+                    </p>
+                    <div class="p-3 bg-previa-teal/10 border border-previa-teal/30 rounded-xl text-slate-300 text-xs">
+                        <strong>Como agir?</strong> Deixe a faixa da esquerda livre, deslocando-se para a direita da via e parando se necessário.
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="bg-black/20 p-6 rounded-2xl border border-white/5 flex flex-col items-center w-full max-w-xs text-center">
+                        <div class="w-full h-40 bg-slate-800 rounded-lg flex flex-col items-center justify-center p-4 border border-red-500/30">
+                            <i class="fa-solid fa-truck-medical text-5xl text-red-500 mb-2 animate-bounce"></i>
+                            <span class="text-xs font-bold text-white">Luzes & Sirene Ativas</span>
+                        </div>
+                        <span class="text-xs text-slate-300 font-bold mt-3">Sirene Ligada = Abrir Passagem Pela Direita</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 15: PROTEÇÃO AOS PEDESTRES E VULNERÁVEIS -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-15">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Proteção aos Mais Vulneráveis</h2>
+                <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                </button>
+            </div>
+            <p class="text-[var(--text-secondary)] scaled-text-p mb-6">No trânsito, os veículos maiores são sempre responsáveis pela segurança dos menores:</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl">
+                    <div class="text-previa-tealLight text-3xl mb-2"><i class="fa-solid fa-person-walking"></i></div>
+                    <h4 class="font-title font-bold text-[var(--text-primary)] text-sm mb-1">Pedestres</h4>
+                    <p class="text-slate-400 text-xs">Têm prioridade na faixa sem semáforo ou quando a travessia já foi iniciada.</p>
+                </div>
+                <div class="p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl">
+                    <div class="text-previa-tealLight text-3xl mb-2"><i class="fa-solid fa-bicycle"></i></div>
+                    <h4 class="font-title font-bold text-[var(--text-primary)] text-sm mb-1">Ciclistas</h4>
+                    <p class="text-slate-400 text-xs">Mantenha a distância lateral mínima de <strong>1,5 metro</strong> ao ultrapassar um ciclista.</p>
+                </div>
+                <div class="p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl">
+                    <div class="text-previa-tealLight text-3xl mb-2"><i class="fa-solid fa-motorcycle"></i></div>
+                    <h4 class="font-title font-bold text-[var(--text-primary)] text-sm mb-1">Motociclistas</h4>
+                    <p class="text-slate-400 text-xs">Evite pontos cegos e mantenha distância dobrada de seguimento.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 16: MANUTENÇÃO PREVENTIVA E INSPEÇÃO -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-16">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Manutenção Preventiva do Veículo</h2>
+                <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                </button>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 overflow-y-auto max-h-[380px] pr-2 custom-scrollbar">
+                
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl text-center flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-previa-teal/20 text-previa-tealLight flex items-center justify-center text-xl mb-2">
+                        <i class="fa-solid fa-[#circle-notch] fa-circle-notch"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-[var(--text-primary)]">Pneus & TWI</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Sulcos com no mínimo 1,6mm de profundidade.</p>
+                </div>
+
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl text-center flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-previa-orange/20 text-previa-orange flex items-center justify-center text-xl mb-2">
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-[var(--text-primary)]">Fluidos & Freios</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Verificação periódica de pastilhas e óleo hidráulico.</p>
+                </div>
+
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl text-center flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-xl mb-2">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-[var(--text-primary)]">Lâmpadas & Luzes</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Luzes de freio, setas e faróis em dia.</p>
+                </div>
+
+                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl text-center flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center text-xl mb-2">
+                        <i class="fa-solid fa-wind"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-[var(--text-primary)]">Limpadores</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Palhetas em bom estado para visibilidade em tempestades.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SLIDE 17: ESTUDO DE CASO PRÁTICO -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-17">
+            <div class="text-center mb-4">
+                <div class="flex items-center justify-center gap-3 mb-1">
+                    <span class="px-3 py-1 bg-previa-orange/20 text-previa-orange text-xs font-bold rounded-full uppercase tracking-wider">Análise de Situação</span>
+                    <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                        <i class="fa-solid fa-volume-high"></i> Ouvir Áudio
+                    </button>
+                </div>
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Estudo de Caso do Trânsito</h2>
+            </div>
+            <div class="max-w-3xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] p-6 rounded-2xl space-y-4">
+                <div class="p-4 bg-black/30 rounded-xl border border-white/5 text-xs text-slate-200 leading-relaxed">
+                    <strong>Situação:</strong> Você está dirigindo em uma rodovia de pista simples em dia chuvoso a 90 km/h. À sua frente, um caminhão está reduzindo a velocidade e a água empoçada na pista forma um forte spray de chuva que reduz sua visibilidade.
+                </div>
+                <h4 class="font-bold text-sm text-previa-tealLight">Qual a conduta mais defensiva a adotar?</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <button onclick="checkCase(false)" class="p-3.5 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 text-left text-slate-300 transition-all cursor-pointer">
+                        A) Ultrapassar o caminhão imediatamente para sair do spray de água.
+                    </button>
+                    <button onclick="checkCase(true)" class="p-3.5 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 text-left text-slate-300 transition-all cursor-pointer">
+                        B) Aumentar a distância de seguimento para 4 segundos e reduzir suavemente a velocidade.
+                    </button>
+                </div>
+                <div id="case-feedback" class="hidden p-3.5 rounded-xl text-xs font-bold text-center leading-relaxed"></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 18: ENCERRAMENTO E REVISÃO DO MÓDULO 2 -->
+        <div class="slide-layout absolute inset-0 p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-18">
+            <div class="max-w-2xl mx-auto text-center space-y-6">
+                <div class="w-20 h-20 bg-previa-teal/20 text-previa-tealLight rounded-full flex items-center justify-center text-4xl mx-auto border border-previa-teal/40">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h2 class="scaled-text-h2 font-title font-extrabold text-[var(--text-primary)]">Parabéns! Módulo 2 Concluído</h2>
+                <button onclick="toggleAudio()" class="slide-audio-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-previa-teal/20 text-previa-tealLight border border-previa-teal/30 hover:bg-previa-teal hover:text-white transition-all text-xs font-semibold cursor-pointer">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Narração Final
+                </button>
+                <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">
+                    Você assimilou as principais normas gerais de circulação e as práticas fundamentais de direção defensiva. Lembre-se: no trânsito, a gentileza e a prevenção salvam vidas!
+                </p>
+                <div class="pt-4 flex justify-center gap-4">
+                    <button onclick="jumpToSlide(1)" class="px-6 py-3 bg-previa-teal hover:bg-previa-tealLight text-white rounded-xl font-bold text-xs transition-all shadow-lg cursor-pointer flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-left"></i> REVISAR DESDE O INÍCIO
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w-full bg-slate-200 h-1.5 relative overflow-hidden z-20">
+        <div id="audio-progress-bar" class="h-full bg-previa-orange w-0 transition-all duration-100 ease-linear"></div>
+    </div>
+
+    <footer class="h-[70px] bg-white text-previa-navy px-6 flex items-center justify-between border-t border-previa-border shrink-0 z-20">
+        <button id="prev-btn" onclick="prevSlide()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-previa-teal hover:text-white border border-slate-200 text-slate-700 text-xs font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+            <i class="fa-solid fa-chevron-left"></i> Anterior
+        </button>
+
+        <div class="text-xs font-bold text-slate-600" id="slide-counter">
+            Slide <span id="current-slide-num" class="text-previa-teal font-extrabold">1</span> de <span id="total-slides-num">18</span>
+        </div>
+
+        <button id="next-btn" onclick="nextSlide()" class="px-5 py-2.5 rounded-xl bg-previa-teal hover:bg-previa-tealLight text-white font-bold text-xs transition-all duration-200 flex items-center gap-2 cursor-pointer shadow-sm">
+            Próximo <i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </footer>
+
+</div>
+
+<script>
+    /* VARIABLES STATE */
+    let currentSlide = 1;
+    const totalSlides = 18;
+    let fontScale = 1.0;
+    let isDarkMode = true;
+
+    /* AUDIO NARRATION STATE & DATA */
+    let isSpeaking = false;
+    let currentAudioRate = 1.0;
+    let audioProgressTimer = null;
+    let audioStartTime = 0;
+    let audioEstimatedSecs = 0;
+
+    const slideAudios = {
+        1: "Módulo 2: Normas de Circulação e Direção Defensiva. Aprenda as regras essenciais do Código de Trânsito Brasileiro e as técnicas indispensáveis para prever riscos, evitar acidentes e conduzir com máxima segurança nas vias.",
+        2: "O Conceito de Direção Defensiva. Dirigir defensivamente é dirigir de modo a evitar acidentes, apesar das ações incorretas dos outros condutores e das condições adversas encontradas nas vias. Direção Preventiva antecipa os riscos. Direção Corretiva exige ação sob pressão.",
+        3: "Os 5 Pilares Fundamentais da Direção Defensiva: Conhecimento das leis e mecânica do veículo; Atenção total no trânsito; Previsão de riscos; Decisão rápida e correta; e Habilidade no manuseio dos comandos do veículo.",
+        4: "Normas de Circulação e Preferências em cruzamentos não sinalizados: Em rodovias, a preferência é de quem circula pela rodovia. Em rotatórias, de quem já está circulando no anel. Nos demais cruzamentos, a preferência é do veículo vindo pela direita.",
+        5: "Classificação de Vias e Velocidades Máximas quando não houver sinalização: Vias urbanas: Trânsito Rápido 80 km/h, Arterial 60, Coletora 40, Local 30 km/h. Vias rurais: Rodovias de pista dupla 110 km/h para autos e motos. Estradas 60 km/h. A velocidade mínima é a metade da máxima.",
+        6: "Desafio Fato ou Fake no Trânsito. Teste seus conhecimentos sobre normas e direção defensiva respondendo às perguntas do slide.",
+        7: "As 6 Condições Adversas que aumentam os riscos de acidentes: Luz, Tempo ou Clima, Via, Trânsito, Veículo e Condutor.",
+        8: "Aquaplanagem: Perda de atrito dos pneus com o solo devido à lâmina de água acumulada na pista. Na aquaplanagem, não pise no freio bruscamente e não vire o volante de forma abrupta. Tire suavemente o pé do acelerador.",
+        9: "As Distâncias na Condução: Distância de Reação é do olhar até pisar no freio. Distância de Frenagem é do freio até a parada total. Distância de Parada é a soma da reação mais frenagem. Distância de Seguimento é a mantida em relação ao carro da frente.",
+        10: "A Regra dos 2 Segundos: Técnica para medir a distância segura do veículo à frente. Conte cinquenta e um, cinquenta e dois ao passar por um ponto fixo. Sob chuva ou neblina, dobre para 4 segundos.",
+        11: "Classificador de Situações de Risco: Atividade prática para identificar qual tipo de condição adversa corresponde ao evento apresentado na tela.",
+        12: "Ultrapassagens Seguras e Proibições: Sinalize com antecedência, verifique os retrovisores e garanta visibilidade. É estritamente proibido ultrapassar em faixas contínuas, pontes, viadutos, curvas sem visibilidade e pelo acostamento.",
+        13: "Uso Correto dos Faróis: Farol baixo é obrigatório à noite e em rodovias de pista simples de dia. Farol alto em vias não iluminadas. Pisca-alerta em emergências com veículo parado. Farol de neblina em baixa visibilidade.",
+        14: "Veículos de Emergência: Ambulâncias, corpos de bombeiros e viaturas policiais têm prioridade e livre circulação em serviço de urgência com sirene e girofletor ligados. Abra passagem deslocando-se para a direita.",
+        15: "Proteção aos Mais Vulneráveis: No trânsito, os veículos maiores são responsáveis pela segurança dos menores. Dê preferência aos pedestres, mantenha 1,5 metro de distância dos ciclistas e evite pontos cegos de motociclistas.",
+        16: "Manutenção Preventiva do Veículo: Verifique pneus com TWI de no mínimo 1,6 milímetros de profundidade, sistema de freios e fluidos, iluminação e limpadores de para-brisa.",
+        17: "Estudo de Caso Prático: Dirigindo em rodovia com chuva forte atrás de um caminhão com spray de água, a conduta mais defensiva é aumentar a distância de seguimento para 4 segundos e reduzir suavemente a velocidade.",
+        18: "Parabéns! Módulo 2 Concluído. Você assimilou as normas gerais de circulação e as práticas fundamentais de direção defensiva. A prevenção e a responsabilidade no trânsito salvam vidas!"
+    };
+
+    /* FACT OR FAKE GAME STATE */
+    const factQuestions = [
+        {
+            text: '"Em um cruzamento não sinalizado, a preferência é sempre do veículo que trafega em maior velocidade."',
+            isFact: false,
+            feedbackText: 'FAKE! Em cruzamentos não sinalizados, a preferência é do veículo vindo pela DIREITA (ou de quem transita por rodovia/rotatória).'
+        },
+        {
+            text: '"Ao constatar sinal de aquaplanagem, você deve retirar o pé do acelerador suavemente e manter o volante firme."',
+            isFact: true,
+            feedbackText: 'FATO! Jamais pise bruscamente no freio para não travar as rodas e provocar derrapagens ou capotamento.'
+        },
+        {
+            text: '"A distância mínima de ultrapassagem lateral para com ciclistas exigida por lei é de 1,5 metro."',
+            isFact: true,
+            feedbackText: 'FATO! O artigo 201 do CTB determina expressamente guardar a distância lateral de 1,5m ao ultrapassar bicicletas.'
+        }
+    ];
+    let currentFactIndex = 0;
+    let factScore = 0;
+
+    /* RISK CLASSIFIER GAME STATE */
+    const riskSituations = [
+        { text: 'Ofuscamento pelos raios solares no final da tarde', category: 'luz' },
+        { text: 'Chuva forte provocando pista escorregadia e aquaplanagem', category: 'clima' },
+        { text: 'Motorista dirigindo com forte sonolência após longa jornada', category: 'condutor' },
+        { text: 'Uso de farol alto na traseira de outro veículo à noite', category: 'luz' }
+    ];
+    let currentRiskIndex = 0;
+    let riskScore = 0;
+
+    window.onload = function() {
+        buildProgressBar();
+        populateDropdown();
+        showSlide(currentSlide);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        initFactGame();
+        initRiskGame();
+    };
+
+    function showSlide(slideIndex) {
+        if (slideIndex < 1 || slideIndex > totalSlides) return;
+        
+        stopAudio();
+
+        for (let i = 1; i <= totalSlides; i++) {
+            const slide = document.getElementById(`slide-${i}`);
+            if (slide) {
+                slide.classList.add('opacity-0', 'pointer-events-none', 'translate-x-12');
+                slide.classList.remove('opacity-100', 'pointer-events-auto', 'translate-x-0');
+            }
+        }
+
+        const target = document.getElementById(`slide-${slideIndex}`);
+        if (target) {
+            target.classList.remove('opacity-0', 'pointer-events-none', 'translate-x-12');
+            target.classList.add('opacity-100', 'pointer-events-auto', 'translate-x-0');
+        }
+
+        currentSlide = slideIndex;
+
+        document.getElementById('current-slide-num').innerText = currentSlide;
+        document.getElementById('slide-dropdown-select').value = currentSlide;
+
+        document.getElementById('prev-btn').disabled = (currentSlide === 1);
+        const nextBtn = document.getElementById('next-btn');
+        if (currentSlide === totalSlides) {
+            nextBtn.innerHTML = 'Concluir <i class="fa-solid fa-check"></i>';
+        } else {
+            nextBtn.innerHTML = 'Próximo <i class="fa-solid fa-chevron-right"></i>';
+        }
+
+        updateProgressBar();
+    }
+
+    function nextSlide() {
+        if (currentSlide < totalSlides) {
+            showSlide(currentSlide + 1);
+        }
+    }
+
+    function prevSlide() {
+        if (currentSlide > 1) {
+            showSlide(currentSlide - 1);
+        }
+    }
+
+    function jumpToSlide(index) {
+        showSlide(parseInt(index));
+    }
+
+    function buildProgressBar() {
+        const container = document.getElementById('progress-bar-container');
+        container.innerHTML = '';
+        for (let i = 1; i <= totalSlides; i++) {
+            const seg = document.createElement('div');
+            seg.className = 'flex-1 h-1.5 rounded-full bg-slate-200 cursor-pointer progress-segment';
+            seg.title = `Ir para slide ${i}`;
+            seg.onclick = () => jumpToSlide(i);
+            seg.id = `p-seg-${i}`;
+            container.appendChild(seg);
+        }
+    }
+
+    function updateProgressBar() {
+        for (let i = 1; i <= totalSlides; i++) {
+            const seg = document.getElementById(`p-seg-${i}`);
+            if (seg) {
+                if (i === currentSlide) {
+                    seg.className = 'flex-1 h-2 rounded-full bg-previa-teal progress-segment active';
+                } else if (i < currentSlide) {
+                    seg.className = 'flex-1 h-1.5 rounded-full bg-previa-tealLight opacity-80 progress-segment completed';
+                } else {
+                    seg.className = 'flex-1 h-1.5 rounded-full bg-slate-200 progress-segment';
+                }
+            }
+        }
+    }
+
+    function populateDropdown() {
+        const select = document.getElementById('slide-dropdown-select');
+        select.innerHTML = '';
+        const slideTitles = [
+            "1. Capa Módulo 2",
+            "2. Conceito Direção Defensiva",
+            "3. Os 5 Pilares Fundamentais",
+            "4. Normas e Preferências",
+            "5. Limites de Velocidade",
+            "6. Desafio: Fato ou Fake",
+            "7. As 6 Condições Adversas",
+            "8. Aquaplanagem e Perigos",
+            "9. Distâncias na Condução",
+            "10. Regra dos 2 Segundos",
+            "11. Classificador de Riscos",
+            "12. Ultrapassagens Seguras",
+            "13. Faróis e Iluminação",
+            "14. Veículos de Emergência",
+            "15. Pedestres e Vulneráveis",
+            "16. Manutenção Preventiva",
+            "17. Estudo de Caso Prático",
+            "18. Encerramento Módulo 2"
+        ];
+
+        for (let i = 1; i <= totalSlides; i++) {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.innerText = slideTitles[i-1] || `Slide ${i}`;
+            select.appendChild(opt);
+        }
+    }
+
+    function changeFontSize(delta) {
+        fontScale = Math.max(0.8, Math.min(1.4, fontScale + delta));
+        document.documentElement.style.setProperty('--font-scale', fontScale);
+    }
+
+    function toggleTheme() {
+        isDarkMode = !isDarkMode;
+        const wrapper = document.getElementById('presentation-wrapper');
+        if (isDarkMode) {
+            wrapper.classList.remove('light-theme');
+        } else {
+            wrapper.classList.add('light-theme');
+        }
+    }
+
+    function getGooglePtBrFemaleVoice() {
+        if (!('speechSynthesis' in window)) return null;
+        const voices = window.speechSynthesis.getVoices();
+        
+        let googleVoice = voices.find(v => v.name.includes('Google') && v.lang.replace('_', '-').includes('pt-BR'));
+        if (googleVoice) return googleVoice;
+
+        let femaleVoice = voices.find(v => 
+            (v.name.includes('Luciana') || v.name.includes('Francisca') || v.name.includes('Yara') || v.name.includes('Maria') || v.name.includes('Female') || v.name.includes('feminino')) &&
+            (v.lang.includes('pt') || v.lang.includes('BR'))
+        );
+        if (femaleVoice) return femaleVoice;
+
+        let ptBrVoice = voices.find(v => v.lang.replace('_', '-').includes('pt-BR'));
+        if (ptBrVoice) return ptBrVoice;
+
+        return voices.find(v => v.lang.includes('pt')) || null;
+    }
+
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = () => {
+            getGooglePtBrFemaleVoice();
+        };
+    }
+
+    function setAudioRate(rate) {
+        currentAudioRate = parseFloat(rate);
+        if (isSpeaking) {
+            speakSlide(currentSlide);
+        }
+    }
+
+    function startAudioProgressBar(text) {
+        stopAudioProgressBar();
+        const bar = document.getElementById('audio-progress-bar');
+        if (!bar) return;
+
+        audioStartTime = Date.now();
+        audioEstimatedSecs = Math.max(1, (text.length / 15) / currentAudioRate);
+
+        audioProgressTimer = setInterval(() => {
+            const elapsed = (Date.now() - audioStartTime) / 1000;
+            const progress = Math.min(100, (elapsed / audioEstimatedSecs) * 100);
+            bar.style.width = progress + '%';
+        }, 100);
+    }
+
+    function stopAudioProgressBar() {
+        if (audioProgressTimer) {
+            clearInterval(audioProgressTimer);
+            audioProgressTimer = null;
+        }
+        const bar = document.getElementById('audio-progress-bar');
+        if (bar) bar.style.width = '0%';
+    }
+
+    function speakSlide(slideNum) {
+        if (!('speechSynthesis' in window)) return;
+
+        window.speechSynthesis.cancel();
+        stopAudioProgressBar();
+
+        const text = slideAudios[slideNum] || slideAudios[currentSlide];
+        if (!text) return;
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'pt-BR';
+        utterance.rate = currentAudioRate;
+        utterance.pitch = 1.0;
+
+        const selectedVoice = getGooglePtBrFemaleVoice();
+        if (selectedVoice) {
+            utterance.voice = selectedVoice;
+        }
+
+        utterance.onstart = function() {
+            isSpeaking = true;
+            updateAudioUI(true);
+            startAudioProgressBar(text);
+        };
+
+        utterance.onboundary = function(event) {
+            if (event.name === 'word' && text.length > 0) {
+                const pct = Math.min(100, Math.max(0, (event.charIndex / text.length) * 100));
+                const bar = document.getElementById('audio-progress-bar');
+                if (bar) bar.style.width = pct + '%';
+            }
+        };
+
+        utterance.onend = function() {
+            isSpeaking = false;
+            updateAudioUI(false);
+            stopAudioProgressBar();
+        };
+
+        utterance.onerror = function() {
+            isSpeaking = false;
+            updateAudioUI(false);
+            stopAudioProgressBar();
+        };
+
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function stopAudio() {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+        isSpeaking = false;
+        updateAudioUI(false);
+        stopAudioProgressBar();
+    }
+
+    function toggleAudio() {
+        if (isSpeaking) {
+            stopAudio();
+        } else {
+            speakSlide(currentSlide);
+        }
+    }
+
+    function updateAudioUI(playing) {
+        const btn = document.getElementById('audio-btn');
+        const icon = document.getElementById('audio-icon');
+        const pulse = document.getElementById('audio-pulse');
+        
+        if (playing) {
+            if (icon) icon.className = 'fa-solid fa-volume-xmark text-sm text-previa-orange';
+            if (pulse) pulse.classList.remove('hidden');
+            if (btn) btn.classList.add('border-previa-orange', 'bg-orange-50');
+        } else {
+            if (icon) icon.className = 'fa-solid fa-volume-high text-sm';
+            if (pulse) pulse.classList.add('hidden');
+            if (btn) btn.classList.remove('border-previa-orange', 'bg-orange-50');
+        }
+
+        document.querySelectorAll('.slide-audio-btn').forEach(b => {
+            if (playing) {
+                b.classList.add('bg-previa-orange', 'text-white');
+                b.innerHTML = '<i class="fa-solid fa-pause"></i> Pausar Áudio';
+            } else {
+                b.classList.remove('bg-previa-orange', 'text-white');
+                b.innerHTML = '<i class="fa-solid fa-volume-high"></i> Ouvir Áudio';
+            }
+        });
+    }
+
+    function initFactGame() {
+        currentFactIndex = 0;
+        factScore = 0;
+        renderFactCard();
+    }
+
+    function renderFactCard() {
+        if (currentFactIndex >= factQuestions.length) {
+            currentFactIndex = 0;
+        }
+        const q = factQuestions[currentFactIndex];
+        document.getElementById('fact-card-counter').innerText = `Questão ${currentFactIndex + 1} de ${factQuestions.length}`;
+        document.getElementById('fact-text').innerText = q.text;
+        document.getElementById('fact-score').innerText = `Pontos: ${factScore}`;
+        document.getElementById('game-fact-feedback').classList.add('hidden');
+    }
+
+    function answerFact(userChoice) {
+        const q = factQuestions[currentFactIndex];
+        const isCorrect = (userChoice === q.isFact);
+        
+        const feedbackModal = document.getElementById('game-fact-feedback');
+        const icon = document.getElementById('fact-feedback-icon');
+        const title = document.getElementById('fact-feedback-title');
+        const desc = document.getElementById('fact-feedback-desc');
+
+        if (isCorrect) {
+            factScore += 10;
+            icon.innerHTML = '<i class="fa-solid fa-circle-check text-green-400"></i>';
+            title.innerText = 'Resposta Correta!';
+        } else {
+            icon.innerHTML = '<i class="fa-solid fa-circle-xmark text-red-400"></i>';
+            title.innerText = 'Incorreto!';
+        }
+        
+        desc.innerText = q.feedbackText;
+        document.getElementById('fact-score').innerText = `Pontos: ${factScore}`;
+        feedbackModal.classList.remove('hidden');
+    }
+
+    function nextFact() {
+        currentFactIndex++;
+        if (currentFactIndex >= factQuestions.length) {
+            currentFactIndex = 0;
+        }
+        renderFactCard();
+    }
+
+    function initRiskGame() {
+        currentRiskIndex = 0;
+        riskScore = 0;
+        renderRiskCard();
+    }
+
+    function renderRiskCard() {
+        const container = document.getElementById('classifier-sign-area');
+        if (currentRiskIndex >= riskSituations.length) {
+            container.innerHTML = `<span class="text-green-400 font-bold text-sm">Parabéns! Você completou o classificador de riscos!</span>`;
+            document.getElementById('classifier-score').innerText = `Acertos Finais: ${riskScore} / ${riskSituations.length}`;
+            return;
+        }
+        const current = riskSituations[currentRiskIndex];
+        container.innerHTML = `<span class="text-white font-bold text-sm">${current.text}</span>`;
+        document.getElementById('classifier-score').innerText = `Acertos: ${riskScore} / ${riskSituations.length}`;
+    }
+
+    function classifySituation(category) {
+        if (currentRiskIndex >= riskSituations.length) return;
+        
+        if (riskSituations[currentRiskIndex].category === category) {
+            riskScore++;
+        }
+        currentRiskIndex++;
+        renderRiskCard();
+    }
+
+    function checkCase(isCorrect) {
+        const fb = document.getElementById('case-feedback');
+        fb.classList.remove('hidden', 'bg-green-500/20', 'text-green-300', 'bg-red-500/20', 'text-red-300');
+        if (isCorrect) {
+            fb.classList.add('bg-green-500/20', 'text-green-300');
+            fb.innerText = 'Correto! Sob chuva forte, a visibilidade cai drasticamente e o risco de aquaplanagem aumenta. Aumentar a distância de seguimento é a conduta mais segura.';
+        } else {
+            fb.classList.add('bg-red-500/20', 'text-red-300');
+            fb.innerText = 'Incorreto! Tentar ultrapassar sob baixa visibilidade e chuva forte coloca você em altíssimo risco de colisão frontal.';
+        }
+    }
+</script>
+
+</body>
+</html>
