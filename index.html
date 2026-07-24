@@ -131,6 +131,9 @@
                 <button onclick="toggleTheme()" class="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-previa-teal text-xs ml-1" title="Alternar Tema Light/Dark">
                     <i class="fa-solid fa-circle-half-stroke"></i>
                 </button>
+                <button onclick="toggleFullScreen()" class="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-previa-teal text-xs ml-1" title="Alternar Tela Cheia">
+                    <i class="fa-solid fa-expand" id="fullscreen-icon"></i>
+                </button>
             </div>
 
             <!-- Dropdown indicador do topo -->
@@ -863,6 +866,7 @@
     /* VARIABLES STATE */
     let currentSlide = 1;
     const totalSlides = 18;
+
     let fontScale = 1.0;
     let isDarkMode = true;
 
@@ -1066,6 +1070,49 @@
             wrapper.classList.remove('light-theme');
         } else {
             wrapper.classList.add('light-theme');
+        }
+    }
+
+    /* CONTROLE DE TELA CHEIA (FULLSCREEN) */
+    function toggleFullScreen() {
+        const doc = document;
+        const elem = document.documentElement;
+
+        if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (doc.exitFullscreen) {
+                doc.exitFullscreen();
+            } else if (doc.msExitFullscreen) {
+                doc.msExitFullscreen();
+            } else if (doc.mozCancelFullScreen) {
+                doc.mozCancelFullScreen();
+            } else if (doc.webkitExitFullscreen) {
+                doc.webkitExitFullscreen();
+            }
+        }
+    }
+
+    document.addEventListener('fullscreenchange', updateFullscreenIcon);
+    document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
+    document.addEventListener('mozfullscreenchange', updateFullscreenIcon);
+    document.addEventListener('MSFullscreenChange', updateFullscreenIcon);
+
+    function updateFullscreenIcon() {
+        const icon = document.getElementById('fullscreen-icon');
+        if (!icon) return;
+        if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+            icon.className = 'fa-solid fa-compress';
+        } else {
+            icon.className = 'fa-solid fa-expand';
         }
     }
 
